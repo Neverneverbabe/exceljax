@@ -47,11 +47,17 @@
         <span class="ms-font-m">Suggest formulas and cleanups</span>
       </li>
     </ul>
-    <p class="ms-font-l">Select a range and click <b>Run</b> to get started.</p>
-    <div role="button" id="run" class="ms-welcome__action ms-Button ms-Button--hero ms-font-xl">
-      <span class="ms-Button-label">Run</span>
+    <div id="chat-section" style="width: 100%;">
+      <textarea id="promptInput" rows="3" placeholder="Ask a question..." class="ms-TextField"></textarea>
+      <button id="chatBtn" class="ms-Button ms-Button--primary action-btn">🔍 Chat with AI</button>
+      <div id="chatOutput" class="output"></div>
     </div>
-    <p><label id="item-subject"></label></p>
+
+    <button id="analyzeSelectionBtn" class="ms-Button ms-Button--primary action-btn">📊 Analyze Selected Cells</button>
+    <button id="analyzeSheetBtn" class="ms-Button ms-Button--primary action-btn">📄 Analyze Entire Sheet</button>
+    <button id="suggestFormulaBtn" class="ms-Button ms-Button--primary action-btn">🧠 Suggest Formula for Selected Cells</button>
+    <button id="improveFormulaBtn" class="ms-Button ms-Button--primary action-btn">✍️ Improve Existing Formula</button>
+    <button id="createVisualsBtn" class="ms-Button ms-Button--primary action-btn">📈 Create Visuals Based on Data</button>
   </main>
 </body>
 
