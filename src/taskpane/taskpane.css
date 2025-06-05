@@ -77,4 +77,22 @@
 
 b {
     font-weight: bold;
+ }
+
+textarea#promptInput {
+    width: 100%;
+}
+
+#chatOutput {
+    width: 100%;
+    height: 120px;
+    border: 1px solid #ccc;
+    padding: 4px;
+    margin-top: 6px;
+    overflow-y: auto;
+}
+
+.action-btn {
+    margin-top: 10px;
+    width: 100%;
 }
