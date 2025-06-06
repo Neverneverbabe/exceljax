@@ -1,7 +1,7 @@
 name: Build and Deploy to GitHub Pages
 
 permissions:
-  contents: write  # Needed to allow pushing to gh-pages
+  contents: write
 
 on:
   push:
@@ -31,9 +31,7 @@ jobs:
         run: npm run build
 
       - name: Copy static files into dist
-        run: |
-          cp manifest.xml dist/
-          cp src/taskpane/taskpane.html dist/
+        run: cp manifest.xml dist/
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
