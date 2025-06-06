@@ -23,7 +23,6 @@ module.exports = {
       },
     ],
   },
-  // Add mode and devtool for production clarity
   mode: 'production',
   devtool: 'source-map',
 };
