@@ -1,7 +1,7 @@
 name: Build and Deploy to GitHub Pages
 
 permissions:
-  contents: write
+  contents: write  # Required to push to gh-pages
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
       - name: Build with Webpack
         run: npm run build
 
-      - name: Copy static files into dist
+      - name: Copy manifest.xml into dist folder
         run: cp manifest.xml dist/
 
       - name: Deploy to gh-pages branch
