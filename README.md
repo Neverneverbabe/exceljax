@@ -32,3 +32,16 @@ npx http-server docs -S   # serve the built files from the docs folder
 ```
 
 Office requires add-ins to run from HTTPS, so make sure the local server uses HTTPS certificates.
+
+## Task script
+
+Use `scripts/tasks.js` to run common project tasks from the command line:
+
+```bash
+node scripts/tasks.js install       # run npm install
+node scripts/tasks.js build         # build for production
+node scripts/tasks.js buildGhPages  # build for GitHub Pages
+node scripts/tasks.js proxy         # start the local LLM proxy
+node scripts/tasks.js start         # launch the add-in locally
+```
+
