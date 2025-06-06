@@ -1,7 +1,7 @@
 /* global console, document, Excel, Office, fetch, localStorage */
 
 const defaultConfig = {
-  endpoint: "http://localhost:4321/v1/completions",
+  endpoint: "http://localhost:1234/v1/chat/completions",
   model: "meta-llama-3.1-8b-instruct",
   token: "", // optional auth token
   maxHistory: 10,
@@ -85,9 +85,9 @@ async function sendToLLM(prompt) {
     headers,
     body: JSON.stringify({
       model: config.model,
-      prompt,
-      max_tokens: 200,
+
       temperature: 0.7,
+      stream: false,
     }),
   };
 

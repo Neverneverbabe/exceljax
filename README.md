@@ -21,6 +21,25 @@ This project is an Excel add‑in. The build output is committed to the `docs/` 
 4. Commit and push the generated files to GitHub. Enable GitHub Pages for the repository and set the source to the `docs` folder on the `main` branch (or the branch you use).
 5. After deploying, sideload the `docs/manifest.xml` file in Excel. In Excel, choose **Insert → My Add-ins → Shared Folder → Upload My Add-in** and select the manifest file from the `docs` directory.
 
+## Publishing to GitHub
+
+If you created this project locally you will need to publish it to your own GitHub
+repository before enabling GitHub Pages.
+
+1. Create a new empty repository on GitHub (without a README or license).
+2. Add the repository as a remote:
+   ```bash
+   git remote add origin https://github.com/<username>/<repo>.git
+   ```
+3. Push the existing history to GitHub:
+   ```bash
+   git push -u origin main  # or the branch you use
+   ```
+4. Enable GitHub Pages for the repository and set the source to the `docs/`
+   folder on the branch you pushed.
+5. You can now clone or pull the repository on another machine using the clone
+   URL provided by GitHub.
+
 ## Local testing
 
 For offline or local testing you need an HTTPS server. You can start one with:
