@@ -1,22 +1,4 @@
-/* global console, document, Excel, Office, fetch, localStorage */
-
-const defaultConfig = {
-  endpoint: "http://localhost:4321/v1/completions",
-  model: "meta-llama-3.1-8b-instruct",
-};
-
-let config = { ...defaultConfig, ...JSON.parse(localStorage.getItem("llmConfig") || "{}") };
-const conversationHistory = [];
-let statusElem;
-
-function saveConfig() {
-  localStorage.setItem("llmConfig", JSON.stringify(config));
-}
-
-function updateInputsFromConfig() {
-  document.getElementById("endpointInput").value = config.endpoint;
-  document.getElementById("modelInput").value = config.model;
-}
+/* global console, document, Excel, Office, fetch */
 
 Office.onReady((info) => {
   if (info.host === Office.HostType.Excel) {
@@ -29,38 +11,24 @@ Office.onReady((info) => {
     document.getElementById("suggestFormulaBtn").onclick = suggestFormulaForSelectedCells;
     document.getElementById("improveFormulaBtn").onclick = improveExistingFormula;
     document.getElementById("createVisualsBtn").onclick = createVisualsBasedOnData;
-    document.getElementById("saveSettingsBtn").onclick = () => {
-      config.endpoint =
-        document.getElementById("endpointInput").value.trim() || defaultConfig.endpoint;
-      config.model = document.getElementById("modelInput").value.trim() || defaultConfig.model;
-      saveConfig();
-    };
-    statusElem = document.getElementById("status");
-    updateInputsFromConfig();
   }
 });
 
 async function sendToLLM(prompt) {
-  const response = await fetch(config.endpoint, {
+  const response = await fetch("http://localhost:4321/v1/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: config.model,
+      model: "meta-llama-3.1-8b-instruct", // Make sure this matches your LM Studio model ID
       prompt: prompt,
       max_tokens: 200,
       temperature: 0.7,
     }),
-  }).catch((err) => {
-    console.error("❌ Fetch error:", err);
-    throw err;
   });
 
-  const data = await response.json().catch((err) => {
-    console.error("❌ Invalid JSON:", err);
-    throw err;
-  });
+  const data = await response.json();
 
   // Handle both completion and chat-style formats
   if (data.choices?.[0]?.text) {
@@ -81,7 +49,7 @@ async function analyzeSelectedCells() {
 
       const values = range.values;
       const prompt = `Analyze the following Excel data and provide summaries, patterns, or suggestions:\n\n${JSON.stringify(values)}`;
-      statusElem.textContent = "";
+
       const result = await sendToLLM(prompt);
 
       // Output result safely to one cell just below the selected range
@@ -90,9 +58,6 @@ async function analyzeSelectedCells() {
     });
   } catch (error) {
     console.error("❌ Error in analyzeSelectedCells:", error);
-    if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
-    }
   }
 }
 
@@ -104,16 +69,10 @@ async function chatWithAI() {
     }
     const output = document.getElementById("chatOutput");
     output.textContent = "Thinking...";
-    statusElem.textContent = "";
-    conversationHistory.push(`User: ${input}`);
-    const result = await sendToLLM(conversationHistory.join("\n"));
-    conversationHistory.push(`Assistant: ${result}`);
+    const result = await sendToLLM(input);
     output.textContent = result;
   } catch (error) {
     console.error("❌ Error in chatWithAI:", error);
-    if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
-    }
   }
 }
 
@@ -126,7 +85,6 @@ async function analyzeEntireSheet() {
       await context.sync();
 
       const prompt = `Summarize the following worksheet data:\n\n${JSON.stringify(used.values)}`;
-      statusElem.textContent = "";
       const result = await sendToLLM(prompt);
 
       const summarySheet = context.workbook.worksheets.add("LLM Summary");
@@ -136,9 +94,6 @@ async function analyzeEntireSheet() {
     });
   } catch (error) {
     console.error("❌ Error in analyzeEntireSheet:", error);
-    if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
-    }
   }
 }
 
@@ -155,16 +110,12 @@ async function suggestFormulaForSelectedCells() {
       }
 
       const prompt = `Provide an Excel formula only for: ${description}`;
-      statusElem.textContent = "";
       const formula = await sendToLLM(prompt);
       cell.formulas = [[formula]];
       await context.sync();
     });
   } catch (error) {
     console.error("❌ Error in suggestFormulaForSelectedCells:", error);
-    if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
-    }
   }
 }
 
@@ -177,7 +128,6 @@ async function improveExistingFormula() {
 
       const formulas = range.formulas;
       const prompt = `Improve or simplify these formulas. Return them in the same order separated by new lines:\n${JSON.stringify(formulas)}`;
-      statusElem.textContent = "";
       const result = await sendToLLM(prompt);
       const lines = result.split(/\r?\n/).filter((l) => l.trim().length > 0);
 
@@ -200,9 +150,6 @@ async function improveExistingFormula() {
     });
   } catch (error) {
     console.error("❌ Error in improveExistingFormula:", error);
-    if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
-    }
   }
 }
 
@@ -214,7 +161,6 @@ async function createVisualsBasedOnData() {
       await context.sync();
 
       const prompt = `Suggest the best chart type for this data: ${JSON.stringify(range.values)}`;
-      statusElem.textContent = "";
       const suggestion = await sendToLLM(prompt);
       let chartType = "ColumnClustered";
       const text = suggestion.toLowerCase();
@@ -233,8 +179,5 @@ async function createVisualsBasedOnData() {
     });
   } catch (error) {
     console.error("❌ Error in createVisualsBasedOnData:", error);
-    if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
-    }
   }
 }
