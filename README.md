@@ -1,0 +1,34 @@
+# ExcelJax
+
+This project is an Excel add‑in. The build output is committed to the `docs/` directory so it can be hosted on GitHub Pages.
+
+## Setup
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Open `webpack.config.js` and change the `urlProd` constant to the URL of your GitHub Pages site. It should include the trailing slash, for example:
+   ```js
+   const urlProd = "https://<username>.github.io/<repo>/";
+   ```
+3. Build the project. You can use either command:
+   ```bash
+   npm run build       # generic production build
+   npm run build:ghpages # build using the GitHub Pages configuration
+   ```
+   The compiled files will be written to the `docs/` directory (or `dist/` depending on the script).
+4. Commit and push the generated files to GitHub. Enable GitHub Pages for the repository and set the source to the `docs` folder on the `main` branch (or the branch you use).
+5. After deploying, sideload the `docs/manifest.xml` file in Excel. In Excel, choose **Insert → My Add-ins → Shared Folder → Upload My Add-in** and select the manifest file from the `docs` directory.
+
+## Local testing
+
+For offline or local testing you need an HTTPS server. You can start one with:
+
+```bash
+npm start                 # uses office-addin-debugging to host locally
+# or
+npx http-server docs -S   # serve the built files from the docs folder
+```
+
+Office requires add-ins to run from HTTPS, so make sure the local server uses HTTPS certificates.
