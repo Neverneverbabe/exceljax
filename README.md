@@ -64,9 +64,18 @@ To manually verify the add-in:
    ```bash
    npm start                 # uses office-addin-debugging
    # or
-   npx http-server docs -S   # serve the built files
-   ```
+    npx http-server docs -S   # serve the built files
+    ```
 
+### Authentication
+
+The task pane now supports passing an API token to the LLM. Enter the token in
+the **API token** field under settings. The value is saved in `localStorage`.
+
+### Additional commands
+
+- **Suggest Pivot Table** analyzes the selected range and recommends a pivot
+  table layout.
 
 ## Troubleshooting
 
