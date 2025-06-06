@@ -1,23 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ExcelJax Task Pane</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="taskpane.css">
+  <meta charset="UTF-8" />
+  <title>Jaxs Ai Taskpane</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h1 {
+      color: green;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
-  <!-- Model Selection (for LLM-backed features) -->
-  <section>
-    <div class="section-title">LLM Model</div>
-    <label for="modelDropdown">Choose model <span id="spinner">⏳</span></label>
-    <select id="modelDropdown" disabled>
-      <option>Loading models...</option>
-    </select>
-    <div id="modelError" class="error-msg"></div>
-    <input id="systemMessage" type="text" placeholder="System message (optional, e.g. 'Be concise')"/>
-  </section>
-  <!-- ...rest of your UI... -->
-  <script src="taskpane.js"></script>
+  <h1>LIVE VERSION — GitHub Pages</h1>
+  <p>This taskpane is being loaded from GitHub Pages and works in Excel Web and Desktop.</p>
+
+  <button onclick="writeToExcel()">Write to Excel</button>
+
+  <script>
+    Office.onReady(info => {
+      if (info.host === Office.HostType.Excel) {
+        console.log("Excel is ready.");
+      }
+    });
+
+    function writeToExcel() {
+      Excel.run(async context => {
+        const sheet = context.workbook.worksheets.getActiveWorksheet();
+        sheet.getRange("A1").values = [["Hello from Jaxs Ai!"]];
+        await context.sync();
+      }).catch(error => {
+        console.error(error);
+      });
+    }
+  </script>
 </body>
 </html>
