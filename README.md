@@ -91,10 +91,20 @@ To manually verify the add-in:
 The task pane now supports passing an API token to the LLM. Enter the token in
 the **API token** field under settings. The value is saved in `localStorage`.
 
-### Additional commands
+## Available commands
 
-- **Suggest Pivot Table** analyzes the selected range and recommends a pivot
-  table layout.
+- **Analyze Selected Cells** – summarize the highlighted range and output the results below the selection.
+- **Analyze Worksheet** – create a new sheet with a summary of the active worksheet.
+- **Suggest Formula** – describe a calculation in plain language and receive an AI‑generated formula inserted in the selected cell.
+- **Improve Formula** – select cells containing formulas and get simplified versions returned in place.
+- **Create Chart** – ask the AI to pick a suitable chart type for the current selection and insert it on the sheet.
+- **Create Table** – insert a sample expenses table that can then be filtered and sorted.
+- **Filter Table** – apply a values filter to the sample table.
+- **Sort Table** – sort the sample table by the second column in descending order.
+- **Freeze Header** – freeze the first row of the active worksheet.
+- **Suggest Pivot Table** – analyze the current selection and place a recommended pivot layout below it.
+- **Chat with AI** – converse with the language model in the task pane using the provided input box.
+- **Model and Token Settings** – configure the LLM endpoint, model ID and optional API token under the settings section.
 
 ## Troubleshooting
 
