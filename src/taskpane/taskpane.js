@@ -1,6 +1,3 @@
-/* global fetch, document */
-async function callLocalLLM(modelId, promptText) {
-  const response = await fetch("http://localhost:1234/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
