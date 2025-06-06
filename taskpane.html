@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Jaxs Ai Taskpane</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
-  <style>
-    body {
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><title>Jaxs Ai Taskpane</title><meta name="viewport" content="width=device-width,initial-scale=1"/><script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script><style>body {
       font-family: Arial, sans-serif;
       margin: 20px;
     }
@@ -19,17 +11,7 @@
       padding: 10px 20px;
       font-size: 14px;
       margin-top: 15px;
-    }
-  </style>
-</head>
-<body>
-  <h1>LIVE VERSION — GitHub Pages</h1>
-  <p>This taskpane is being loaded from GitHub Pages and works in Excel Web and Desktop.</p>
-
-  <button onclick="writeToExcel()">Write to Excel</button>
-
-  <script>
-    Office.onReady(info => {
+    }</style><script defer="defer" src="taskpane.js"></script></head><body><h1>LIVE VERSION — GitHub Pages</h1><p>This taskpane is being loaded from GitHub Pages and works in Excel Web and Desktop.</p><button onclick="writeToExcel()">Write to Excel</button><script>Office.onReady(info => {
       if (info.host === Office.HostType.Excel) {
         console.log("Excel is ready.");
       }
@@ -43,7 +25,4 @@
       }).catch(error => {
         console.error(error);
       });
-    }
-  </script>
-</body>
-</html>
+    }</script></body></html>
