@@ -3,6 +3,8 @@
 const defaultConfig = {
   endpoint: "http://localhost:1234/v1/chat/completions",
   model: "meta-llama-3.1-8b-instruct",
+  token: "", // optional auth token
+  maxHistory: 10,
 };
 
 let config = { ...defaultConfig, ...JSON.parse(localStorage.getItem("llmConfig") || "{}") };
@@ -17,6 +19,20 @@ function saveConfig() {
 function updateInputsFromConfig() {
   document.getElementById("endpointInput").value = config.endpoint;
   document.getElementById("modelInput").value = config.model;
+  const tokenInput = document.getElementById("tokenInput");
+  if (tokenInput) tokenInput.value = config.token;
+}
+
+async function fetchWithRetry(url, options, retries = 2) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const res = await fetch(url, options);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res;
+    } catch (err) {
+      if (i === retries) throw err;
+    }
+  }
 }
 
 Office.onReady((info) => {
@@ -35,11 +51,15 @@ Office.onReady((info) => {
     document.getElementById("sort-table").onclick = sortTable;
     document.getElementById("create-chart").onclick = createChart;
     document.getElementById("freeze-header").onclick = freezeHeader;
+    const pivotBtn = document.getElementById("pivot-suggestion");
+    if (pivotBtn) pivotBtn.onclick = suggestPivotTable;
     document.getElementById("open-dialog").onclick = openDialog;
     document.getElementById("saveSettingsBtn").onclick = () => {
       config.endpoint =
         document.getElementById("endpointInput").value.trim() || defaultConfig.endpoint;
       config.model = document.getElementById("modelInput").value.trim() || defaultConfig.model;
+      const tokenInput = document.getElementById("tokenInput");
+      config.token = tokenInput ? tokenInput.value.trim() : "";
       saveConfig();
     };
     statusElem = document.getElementById("status");
@@ -48,21 +68,36 @@ Office.onReady((info) => {
 });
 
 async function sendToLLM(prompt) {
-  const response = await fetch(config.endpoint, {
+  const maxPrompt = 6000;
+  if (prompt.length > maxPrompt) {
+    prompt = prompt.slice(0, maxPrompt) + "\n[Truncated]";
+  }
+
+  const headers = {
+    "Content-Type": "application/json",
+  };
+  if (config.token) {
+    headers["Authorization"] = `Bearer ${config.token}`;
+  }
+
+  const options = {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
     body: JSON.stringify({
       model: config.model,
-      messages: [{ role: "user", content: prompt }],
+
       temperature: 0.7,
       stream: false,
     }),
-  }).catch((err) => {
+  };
+
+  let response;
+  try {
+    response = await fetchWithRetry(config.endpoint, options);
+  } catch (err) {
     console.error("❌ Fetch error:", err);
-    throw err;
-  });
+    throw new Error(`Failed to reach LLM: ${err.message}`);
+  }
 
   const data = await response.json().catch((err) => {
     console.error("❌ Invalid JSON:", err);
@@ -98,7 +133,7 @@ async function analyzeSelectedCells() {
   } catch (error) {
     console.error("❌ Error in analyzeSelectedCells:", error);
     if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
+      statusElem.textContent = error.message || "Error communicating with LLM";
     }
   }
 }
@@ -113,13 +148,19 @@ async function chatWithAI() {
     output.textContent = "Thinking...";
     statusElem.textContent = "";
     conversationHistory.push(`User: ${input}`);
+    if (conversationHistory.length > config.maxHistory * 2) {
+      conversationHistory.splice(0, conversationHistory.length - config.maxHistory * 2);
+    }
     const result = await sendToLLM(conversationHistory.join("\n"));
     conversationHistory.push(`Assistant: ${result}`);
+    if (conversationHistory.length > config.maxHistory * 2) {
+      conversationHistory.splice(0, conversationHistory.length - config.maxHistory * 2);
+    }
     output.textContent = result;
   } catch (error) {
     console.error("❌ Error in chatWithAI:", error);
     if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
+      statusElem.textContent = error.message || "Error communicating with LLM";
     }
   }
 }
@@ -144,7 +185,7 @@ async function analyzeEntireSheet() {
   } catch (error) {
     console.error("❌ Error in analyzeEntireSheet:", error);
     if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
+      statusElem.textContent = error.message || "Error communicating with LLM";
     }
   }
 }
@@ -170,7 +211,7 @@ async function suggestFormulaForSelectedCells() {
   } catch (error) {
     console.error("❌ Error in suggestFormulaForSelectedCells:", error);
     if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
+      statusElem.textContent = error.message || "Error communicating with LLM";
     }
   }
 }
@@ -208,7 +249,7 @@ async function improveExistingFormula() {
   } catch (error) {
     console.error("❌ Error in improveExistingFormula:", error);
     if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
+      statusElem.textContent = error.message || "Error communicating with LLM";
     }
   }
 }
@@ -241,7 +282,7 @@ async function createVisualsBasedOnData() {
   } catch (error) {
     console.error("❌ Error in createVisualsBasedOnData:", error);
     if (statusElem) {
-      statusElem.textContent = "Error communicating with LLM";
+      statusElem.textContent = error.message || "Error communicating with LLM";
     }
   }
 }
@@ -359,4 +400,25 @@ function openDialog() {
 function processMessage(arg) {
   document.getElementById("user-name").innerHTML = arg.message;
   dialog.close();
+}
+
+async function suggestPivotTable() {
+  try {
+    await Excel.run(async (context) => {
+      const range = context.workbook.getSelectedRange();
+      range.load("values");
+      await context.sync();
+
+      const prompt = `Suggest a pivot table layout for the following data:\n\n${JSON.stringify(range.values)}`;
+      statusElem.textContent = "";
+      const result = await sendToLLM(prompt);
+      range.getOffsetRange(range.rowCount + 1, 0).getCell(0, 0).values = [[result]];
+      await context.sync();
+    });
+  } catch (error) {
+    console.error("❌ Error in suggestPivotTable:", error);
+    if (statusElem) {
+      statusElem.textContent = error.message || "Error communicating with LLM";
+    }
+  }
 }
