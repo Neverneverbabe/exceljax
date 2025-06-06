@@ -30,11 +30,10 @@ jobs:
       - name: Build with Webpack
         run: npm run build
 
-      - name: Copy taskpane.html into dist
-        run: cp src/taskpane/taskpane.html dist/taskpane.html
-
-      - name: Copy manifest.xml into dist folder
-        run: cp manifest.xml dist/
+      - name: Copy static files into dist
+        run: |
+          cp manifest.xml dist/
+          cp src/taskpane/taskpane.html dist/
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
