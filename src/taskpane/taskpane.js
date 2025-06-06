@@ -18,7 +18,8 @@ function saveConfig() {
 
 function updateInputsFromConfig() {
   document.getElementById("endpointInput").value = config.endpoint;
-  document.getElementById("modelInput").value = config.model;
+  const select = document.getElementById("modelSelect");
+  if (select) select.value = config.model;
   const tokenInput = document.getElementById("tokenInput");
   if (tokenInput) tokenInput.value = config.token;
 }
@@ -57,7 +58,8 @@ Office.onReady((info) => {
     document.getElementById("saveSettingsBtn").onclick = () => {
       config.endpoint =
         document.getElementById("endpointInput").value.trim() || defaultConfig.endpoint;
-      config.model = document.getElementById("modelInput").value.trim() || defaultConfig.model;
+      const modelSelect = document.getElementById("modelSelect");
+      config.model = modelSelect ? modelSelect.value.trim() : defaultConfig.model;
       const tokenInput = document.getElementById("tokenInput");
       config.token = tokenInput ? tokenInput.value.trim() : "";
       saveConfig();
