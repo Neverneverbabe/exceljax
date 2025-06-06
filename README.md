@@ -67,3 +67,13 @@ To manually verify the add-in:
    npx http-server docs -S   # serve the built files
    ```
 
+
+## Troubleshooting
+
+If Excel reports it cannot load the add-in or shows a network error:
+
+1. Make sure you are sideloading `docs/manifest.xml`, not the root `manifest.xml`.
+2. Verify that your GitHub Pages URL is reachable over HTTPS.
+3. Remove any previously sideloaded version of the add-in and upload the manifest again.
+4. If network access is restricted, host the `docs/` folder locally with `npm start` or `npx http-server docs -S` and sideload the local manifest.
+
