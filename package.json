@@ -14,7 +14,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
-    "build:ghpages": "webpack --config webpack.ghpages.config.js --mode production",
+    "build:ghpages": "webpack --mode production --output-path dist-ghpages",
     "dev-server": "webpack serve --mode development",
     "lint": "office-addin-lint check",
     "lint:fix": "office-addin-lint fix",
