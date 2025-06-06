@@ -18,63 +18,22 @@
   <script type="module" src="./taskpane.js"></script>
 </head>
 
-<body class="ms-font-m ms-welcome ms-Fabric">
-  <header class="ms-welcome__header ms-bgColor-neutralLighter">
-    <!-- Slightly larger round image -->
-    <img width="110" height="110" src="../../assets/Scott%20Pope.jpg" alt="Jaxs Ai" title="Jaxs Ai" style="border-radius: 50%;" />
-    <h1 class="ms-font-su">Welcome</h1>
-  </header>
+<body>
+  <h2>Ask Your Local AI</h2>
+  <label for="modelSelect">Choose a model:</label>
+  <select id="modelSelect">
+    <option value="meta-llama-3.1-8b-instruct">Meta LLaMA 3.1</option>
+    <option value="codellama-7b-instruct">CodeLLaMA 7B</option>
+    <option value="deepseek-r1-distill-qwen-7b">DeepSeek Qwen 7B</option>
+    <option value="deepseek-math-7b-instruct">DeepSeek Math 7B</option>
+  </select>
 
-  <section id="sideload-msg" class="ms-welcome__main">
-    <h2 class="ms-font-xl">
-      Please <a target="_blank" href="https://learn.microsoft.com/office/dev/add-ins/testing/test-debug-office-add-ins#sideload-an-office-add-in-for-testing">sideload</a> your add-in to see app body.
-    </h2>
-  </section>
-
-  <main id="app-body" class="ms-welcome__main" style="display: none;">
-    <h2 class="ms-font-xl">Discover what this Excel AI add-in can do:</h2>
-    <ul class="ms-List ms-welcome__features">
-      <li class="ms-ListItem">
-        <i class="ms-Icon ms-Icon--BarChart4 ms-font-xl"></i>
-        <span class="ms-font-m">Summarize Excel data</span>
-      </li>
-      <li class="ms-ListItem">
-        <i class="ms-Icon ms-Icon--Insights ms-font-xl"></i>
-        <span class="ms-font-m">Spot trends and patterns</span>
-      </li>
-      <li class="ms-ListItem">
-        <i class="ms-Icon ms-Icon--ExcelDocument ms-font-xl"></i>
-        <span class="ms-font-m">Suggest formulas and cleanups</span>
-      </li>
-    </ul>
-    <div id="chat-section" style="width: 100%;">
-      <textarea id="promptInput" rows="3" placeholder="Ask a question..." class="ms-TextField"></textarea>
-      <button id="chatBtn" class="ms-Button ms-Button--primary action-btn">🔍 Chat with AI</button>
-      <div id="chatOutput" class="output"></div>
-      <div id="status" class="status"></div>
-    </div>
-
-    <div id="settings-section" style="width: 100%; margin-top: 10px;">
-      <input id="endpointInput" class="ms-TextField settings-input" placeholder="LLM endpoint" />
-      <input id="modelInput" class="ms-TextField settings-input" placeholder="Model ID" />
-      <input id="tokenInput" class="ms-TextField settings-input" placeholder="API token (optional)" />
-      <button id="saveSettingsBtn" class="ms-Button ms-Button--primary action-btn">Save Settings</button>
-    </div>
-
-    <button id="analyzeSelectionBtn" class="ms-Button ms-Button--primary action-btn">📊 Analyze Selected Cells</button>
-    <button id="analyzeSheetBtn" class="ms-Button ms-Button--primary action-btn">📄 Analyze Entire Sheet</button>
-    <button id="suggestFormulaBtn" class="ms-Button ms-Button--primary action-btn">🧠 Suggest Formula for Selected Cells</button>
-    <button id="improveFormulaBtn" class="ms-Button ms-Button--primary action-btn">✍️ Improve Existing Formula</button>
-    <button id="createVisualsBtn" class="ms-Button ms-Button--primary action-btn">📈 Create Visuals Based on Data</button>
-    <button class="ms-Button" id="create-table">Create Table</button><br/><br/>
-    <button class="ms-Button" id="filter-table">Filter Table</button><br/><br/>
-    <button class="ms-Button" id="sort-table">Sort Table</button><br/><br/>
-    <button class="ms-Button" id="create-chart">Create Chart</button><br/><br/>
-    <button class="ms-Button" id="freeze-header">Freeze Header</button><br/><br/>
-    <button class="ms-Button" id="pivot-suggestion">Suggest Pivot Table</button><br/><br/>
-    <button class="ms-Button" id="open-dialog">Open Dialog</button><br/><br/>
-    <label id="user-name"></label><br/><br/>
-  </main>
+  <br><br>
+  <input type="text" id="userPrompt" placeholder="Ask something..." style="width: 100%;" />
+  <br><br>
+  <button id="submitPrompt">Ask</button>
+  <br><br>
+  <div id="responseOutput" style="white-space: pre-wrap; border: 1px solid #ccc; padding: 10px;"></div>
 </body>
 
 </html>
