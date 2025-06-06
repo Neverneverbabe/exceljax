@@ -92,17 +92,6 @@ textarea#promptInput {
     overflow-y: auto;
 }
 
-#status {
-    margin-top: 6px;
-    color: red;
-    width: 100%;
-}
-
-.settings-input {
-    width: 100%;
-    margin-top: 6px;
-}
-
 .action-btn {
     margin-top: 10px;
     width: 100%;
