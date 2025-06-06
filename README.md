@@ -45,3 +45,25 @@ node scripts/tasks.js proxy         # start the local LLM proxy
 node scripts/tasks.js start         # launch the add-in locally
 ```
 
+## Testing
+
+Run lint checks using:
+
+```bash
+npm test
+```
+
+To manually verify the add-in:
+
+1. Build the project and write the output to the `docs/` directory:
+   ```bash
+   npm run build:ghpages
+   ```
+2. In Excel, sideload `docs/manifest.xml` by choosing **Insert → My Add-ins → Shared Folder → Upload My Add-in**.
+3. Interact with the add-in to ensure the commands work as expected. During development you can serve the `docs` folder over HTTPS:
+   ```bash
+   npm start                 # uses office-addin-debugging
+   # or
+   npx http-server docs -S   # serve the built files
+   ```
+
