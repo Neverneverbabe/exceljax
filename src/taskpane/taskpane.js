@@ -27,7 +27,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch("http://localhost:1234/v1/models");
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-      if (!Array.isArray(data.models)) throw new Error("Unexpected model response");
+      if (!Array.isArray(data.models))
+        throw new Error("Unexpected model response");
       modelDropdown.innerHTML = "";
       data.models.forEach((model) => {
         const opt = document.createElement("option");
@@ -39,7 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
       LMStudioAvailable = true;
     } catch (err) {
       modelDropdown.innerHTML = `<option disabled>Error loading models</option>`;
-      modelError.textContent = "LM Studio is not running. Features requiring LLMs are disabled.";
+      modelError.textContent =
+        "LM Studio is not running. Features requiring LLMs are disabled.";
       modelDropdown.disabled = true;
       LMStudioAvailable = false;
     } finally {
@@ -57,29 +59,31 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Top Chat Box ---
-  document.getElementById("topChatSendBtn")?.addEventListener("click", async () => {
-    const input = document.getElementById("topChatInput");
-    const output = document.getElementById("topChatOutput");
-    const spinner = document.getElementById("topChatSpinner");
-    const prompt = input?.value.trim();
-    if (!prompt) return;
-    output.textContent = "";
-    spinner.style.display = "inline-block";
-    try {
-      const response = await fetch("http://localhost:1234/v1/completions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: modelDropdown.value, prompt }),
-      });
-      if (!response.ok) throw new Error("LM Studio not available");
-      const data = await response.json();
-      output.textContent = data.choices?.[0]?.text ?? "No response";
-    } catch (err) {
-      output.textContent = "AI not available or LM Studio not running.";
-    } finally {
-      spinner.style.display = "none";
-    }
-  });
+  document
+    .getElementById("topChatSendBtn")
+    ?.addEventListener("click", async () => {
+      const input = document.getElementById("topChatInput");
+      const output = document.getElementById("topChatOutput");
+      const spinner = document.getElementById("topChatSpinner");
+      const prompt = input?.value.trim();
+      if (!prompt) return;
+      output.textContent = "";
+      spinner.style.display = "inline-block";
+      try {
+        const response = await fetch("http://localhost:1234/v1/completions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ model: modelDropdown.value, prompt }),
+        });
+        if (!response.ok) throw new Error("LM Studio not available");
+        const data = await response.json();
+        output.textContent = data.choices?.[0]?.text ?? "No response";
+      } catch (err) {
+        output.textContent = "AI not available or LM Studio not running.";
+      } finally {
+        spinner.style.display = "none";
+      }
+    });
 
   // --- Feature Button Handlers (Excel, Insights, Formatting, Table, Advanced, Language) ---
   const featureButtonMap = [
@@ -114,17 +118,27 @@ document.addEventListener("DOMContentLoaded", () => {
     "addComments",
   ];
   featureButtonMap.forEach((feature) => {
-    document.getElementById(`${feature}Btn`)?.addEventListener("click", async () => {
-      await handleExcelFeature(feature);
-    });
+    document
+      .getElementById(`${feature}Btn`)
+      ?.addEventListener("click", async () => {
+        await handleExcelFeature(feature);
+      });
   });
 
   // --- Reset button ---
   document.getElementById("resetBtn")?.addEventListener("click", () => {
-    document.querySelectorAll("input, textarea").forEach((el) => (el.value = ""));
-    document.querySelectorAll(".result-box").forEach((el) => (el.textContent = ""));
-    document.querySelectorAll(".error-msg").forEach((el) => (el.textContent = ""));
-    document.querySelectorAll(".spinner").forEach((el) => (el.style.display = "none"));
+    document
+      .querySelectorAll("input, textarea")
+      .forEach((el) => (el.value = ""));
+    document
+      .querySelectorAll(".result-box")
+      .forEach((el) => (el.textContent = ""));
+    document
+      .querySelectorAll(".error-msg")
+      .forEach((el) => (el.textContent = ""));
+    document
+      .querySelectorAll(".spinner")
+      .forEach((el) => (el.style.display = "none"));
   });
 
   // --- Feature handler stub ---
