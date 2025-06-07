@@ -28,9 +28,12 @@
 
   <button onclick="writeToExcel()">Write to Excel</button>
 
-  <select id="modelDropdown"></select>
-  <span id="modelError"></span>
-  <span id="spinner" style="display:none">Loading...</span>
+  <!-- Language model selection -->
+  <div id="modelSection">
+    <select id="modelDropdown"></select>
+    <span id="modelError"></span>
+    <span id="spinner" style="display:none">Loading...</span>
+  </div>
 
   <script>
     Office.onReady(info => {
