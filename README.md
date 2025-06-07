@@ -5,7 +5,7 @@ It allows you to use local LLMs running in LM Studio for data analysis, formula 
 
 ## Features
 
-- Dynamically loads available models from LM Studio (`http://localhost:1234/v1/models`)
+- Dynamically loads available models from LM Studio (endpoint set via `LM_API_URL`)
 - AI chat, formula help, insights, and data cleanup tools in the Excel Task Pane
 - Deployed and updated automatically via GitHub Actions to GitHub Pages
 
@@ -23,8 +23,13 @@ It allows you to use local LLMs running in LM Studio for data analysis, formula 
 4. **Update manifest:**  
    Download `manifest.xml` from your repo and [sideload it in Excel](https://learn.microsoft.com/office/dev/add-ins/testing/sideload-office-add-ins-for-testing).
 
-5. **Start LM Studio:**  
+5. **Start LM Studio:**
    Make sure LM Studio is running and listening on `http://localhost:1234`.
+
+## Environment Variables
+
+Set `LM_API_URL` to change the endpoint used to fetch model metadata.
+If not specified, it defaults to `http://localhost:1234/v1/models`.
 
 ## Available Scripts
 

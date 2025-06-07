@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   entry: {
@@ -14,6 +15,9 @@ module.exports = {
       filename: 'taskpane.html',
       template: './src/taskpane/taskpane.html',
       chunks: ['taskpane'],
+    }),
+    new webpack.DefinePlugin({
+      LM_API_URL: JSON.stringify(process.env.LM_API_URL || 'http://localhost:1234/v1/models'),
     }),
   ],
   module: {
