@@ -30,8 +30,6 @@ jobs:
       - name: Build with Webpack
         run: npm run build
 
-      - name: Copy manifest.xml into dist folder
-        run: cp manifest.xml dist/
 
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
