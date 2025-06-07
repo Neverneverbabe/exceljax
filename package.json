@@ -5,7 +5,13 @@
   "main": "dist/taskpane.js",
   "scripts": {
     "test": "echo \"No tests defined\" && exit 0",
-    "build": "webpack && cp manifest.xml dist/ && cp manifest.xml docs/ && cp manifest.xml dist-ghpages/",
+    "build": "webpack --mode production && cp manifest.xml dist/ && cp manifest.xml docs/ && cp manifest.xml dist-ghpages/",
+    "build:dev": "webpack --mode development",
+    "build:ghpages": "webpack --config webpack.ghpages.config.js",
+    "dev-server": "webpack serve --mode development",
+    "lint": "office-addin-lint check",
+    "lint:fix": "office-addin-lint fix",
+    "watch": "webpack --watch --mode development",
     "start": "office-addin-debugging start manifest.xml",
     "stop": "office-addin-debugging stop manifest.xml",
     "proxy": "node proxy-server.js"
@@ -14,11 +20,15 @@
   "license": "MIT",
   "devDependencies": {
     "copy-webpack-plugin": "^13.0.0",
+    "eslint": "^9.28.0",
+    "eslint-plugin-office-addins": "^4.0.3",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.6.3",
     "office-addin-debugging": "^6.0.3",
+    "office-addin-lint": "^3.0.3",
     "webpack": "^5.0.0",
-    "webpack-cli": "^4.0.0"
+    "webpack-cli": "^4.0.0",
+    "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
     "cors": "^2.8.5",

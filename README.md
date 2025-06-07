@@ -14,8 +14,8 @@ It allows you to use local LLMs running in LM Studio for data analysis, formula 
 1. **Install dependencies:**  
    `npm ci`
 
-2. **Development build:**  
-   `npm run build`
+2. **Development build:**
+   `npm run build:dev`
 
 3. **Deploy:**  
    Just push to `main` — GitHub Actions builds and publishes automatically!
@@ -25,6 +25,19 @@ It allows you to use local LLMs running in LM Studio for data analysis, formula 
 
 5. **Start LM Studio:**  
    Make sure LM Studio is running and listening on `http://localhost:1234`.
+
+## Available Scripts
+
+- `npm run build` – Production build with Webpack.
+- `npm run build:dev` – Development build.
+- `npm run build:ghpages` – Build using the GitHub Pages configuration.
+- `npm run dev-server` – Run a development server with live reload.
+- `npm run watch` – Watch source files and rebuild on changes.
+- `npm run start` – Launch the add-in for debugging.
+- `npm run stop` – Stop the debugging session.
+- `npm run lint` – Check code style with ESLint.
+- `npm run lint:fix` – Fix fixable linting issues.
+- `npm run proxy` – Start the LM Studio proxy server.
 
 ## Project Structure
 
