@@ -30,6 +30,8 @@ It allows you to use local LLMs running in LM Studio for data analysis, formula 
 
 Set `LM_API_URL` to change the endpoint used to fetch model metadata.
 If not specified, it defaults to `http://localhost:1234/v1/models`.
+When running the proxy server, set it to `http://localhost:4321/v1/models` so
+the add-in communicates with LM Studio through the proxy.
 
 ## Available Scripts
 
@@ -52,13 +54,20 @@ If not specified, it defaults to `http://localhost:1234/v1/models`.
 
 ## Proxy Server
 
-`proxy-server.js` forwards requests from `http://localhost:4321/v1` to the LM Studio API at `http://127.0.0.1:1234/v1`. This helps avoid CORS issues when the add-in accesses local models.
+`proxy-server.js` is a tiny Express application that proxies all `/v1` requests
+to LM Studio running on `http://127.0.0.1:1234`. LM Studio does not send the
+necessary CORS headers, so direct requests from Excel are blocked. Running the
+proxy adds those headers and allows the add-in to reach your local models
+without cross‑origin errors.
 
 Start the proxy with:
 
 ```bash
 npm run proxy
 ```
+
+With the proxy running, set `LM_API_URL` to
+`http://localhost:4321/v1/models` before building or launching the add-in.
 
 ## License
 
