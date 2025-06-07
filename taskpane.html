@@ -11,7 +11,7 @@
       padding: 10px 20px;
       font-size: 14px;
       margin-top: 15px;
-    }</style><script defer="defer" src="taskpane.js"></script></head><body><h1>LIVE VERSION — GitHub Pages</h1><p>This taskpane is being loaded from GitHub Pages and works in Excel Web and Desktop.</p><button onclick="writeToExcel()">Write to Excel</button><script>Office.onReady(info => {
+    }</style><script defer="defer" src="taskpane.js"></script></head><body><h1>LIVE VERSION — GitHub Pages</h1><p>This taskpane is being loaded from GitHub Pages and works in Excel Web and Desktop.</p><button onclick="writeToExcel()">Write to Excel</button> <select id="modelDropdown"></select> <span id="modelError"></span> <span id="spinner" style="display:none">Loading...</span><script>Office.onReady(info => {
       if (info.host === Office.HostType.Excel) {
         console.log("Excel is ready.");
       }
