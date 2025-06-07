@@ -42,13 +42,8 @@ It allows you to use local LLMs running in LM Studio for data analysis, formula 
 ## Project Structure
 
 - `/src` — source files (`taskpane.html`, `taskpane.js`)
-- `/dist` — production build output deployed from CI
-- `/docs` — static site generated during the build
-- `/dist-ghpages` — GitHub Pages build output
+- `/dist` — built output, deployed to GitHub Pages (`main` branch → `gh-pages` branch)
 - `.github/workflows/deploy.yml` — CI/CD for automatic deployment
-
-`dist/`, `docs/`, and `dist-ghpages/` are generated automatically by the workflow
-and are intentionally ignored in Git.
 
 ## License
 
