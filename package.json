@@ -16,7 +16,11 @@
     "stop": "office-addin-debugging stop manifest.xml",
     "proxy": "node proxy-server.js"
   },
-  "author": "Your Name",
+  "author": "neverneverbabe",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neverneverbabe/exceljax.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "copy-webpack-plugin": "^13.0.0",
