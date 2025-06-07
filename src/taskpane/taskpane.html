@@ -28,6 +28,10 @@
 
   <button onclick="writeToExcel()">Write to Excel</button>
 
+  <select id="modelDropdown"></select>
+  <span id="modelError"></span>
+  <span id="spinner" style="display:none">Loading...</span>
+
   <script>
     Office.onReady(info => {
       if (info.host === Office.HostType.Excel) {
