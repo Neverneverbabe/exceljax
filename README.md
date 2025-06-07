@@ -45,6 +45,16 @@ It allows you to use local LLMs running in LM Studio for data analysis, formula 
 - `/dist` — built output, deployed to GitHub Pages (`main` branch → `gh-pages` branch)
 - `.github/workflows/deploy.yml` — CI/CD for automatic deployment
 
+## Proxy Server
+
+`proxy-server.js` forwards requests from `http://localhost:4321/v1` to the LM Studio API at `http://127.0.0.1:1234/v1`. This helps avoid CORS issues when the add-in accesses local models.
+
+Start the proxy with:
+
+```bash
+npm run proxy
+```
+
 ## License
 
 MIT
